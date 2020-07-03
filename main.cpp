@@ -1,11 +1,11 @@
 #include <iostream>
 #include<iomanip>
 
-#define RED "\033[31;40m"
-#define GREEN "\033[32;40m"
-#define WHITE "\033[37;40m"
-#define YELLOW "\033[33;40m"
-#define CYAN "\033[36;40m"
+// #define RED "\033[31;40m"
+// #define GREEN "\033[32;40m"
+// #define WHITE "\033[37;40m"
+// #define YELLOW "\033[33;40m"
+// #define CYAN "\033[36;40m"
 
 
 using namespace std;
@@ -76,7 +76,7 @@ int main()
   Relogio Expediente;
   Veiculo Automovel; //Variavel que vai assumir qualquer tipo de Veiculo
 
- cout << GREEN <<  "HORÁRIO DE INÍCIO DO EXPEDIENTE [hh:mm]: " << WHITE;
+ cout <<  "HORÁRIO DE INÍCIO DO EXPEDIENTE [hh:mm]: ";
  cin >> hora;
  cin.get();
  cin >> minuto;
@@ -182,23 +182,15 @@ int main()
           Automovel.tipo = 3;
           Automovel.inserir(Expediente.horas,Expediente.minutos);
           Automovel.mostrarHora();
-
-          
-          cout << "Em qual andar deseja Estacionar [4]: ";
-          cin >> andar;
-          while(andar != 4)
-          {
-            cout << "Em qual andar deseja Estacionar [4]: ";
-            cin >> andar;
-          }
+          andar = 4;
           
           cout << "Vagas Super-Esportivos - Andar "<< andar << endl;
           if(andar == 4)
           {
-            mostrarVeiculos(5, CarrosAndar1, 20);
+            mostrarVeiculos(10, Andar4, 15);
             cout << "Em qual posicao deseja adicionar: ";
             cin >> pos;
-            inserirCarro(Automovel, Andar4,pos,15);
+            inserirCarro(Automovel, Andar4, pos, 15);
           }
           
         break;
@@ -229,7 +221,22 @@ int main()
          retirarCarro(placaVerifica, CamionetesAndar1, 30);  
         }
       }
-
+      else if(andar == 2)
+      {
+        retirarCarro(placaVerifica, Andar2, 25);
+      }
+      else if(andar == 3)
+      {
+        retirarCarro(placaVerifica, Andar3, 10);
+      }
+      else if(andar == 4)
+      {
+        retirarCarro(placaVerifica, Andar4, 15);
+      }
+      else if(andar == 5)
+      {
+        retirarCarro(placaVerifica, Andar5, 20);
+      }
     }
     system("clear");
   }
