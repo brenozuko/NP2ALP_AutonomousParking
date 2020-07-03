@@ -1,5 +1,13 @@
 #include <iostream>
 #include<iomanip>
+
+#define RED "\033[31;40m"
+#define GREEN "\033[32;40m"
+#define WHITE "\033[37;40m"
+#define YELLOW "\033[33;40m"
+#define CYAN "\033[36;40m"
+
+
 using namespace std;
 
 typedef struct
@@ -16,6 +24,10 @@ typedef struct
         hora = sth;
         minuto = stm;
     }
+
+    void mostrarHora(){
+    cout << "Hora de entrada: " << hora << ":" << minuto << endl; 
+}
   
 }Veiculo;
 
@@ -39,9 +51,10 @@ void mostrarHora(){
 
 void mostrarVeiculos(float preco,Veiculo Andar[], int tam);
 void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam);
-void retirarCarro(Veiculo car, Veiculo Andar[], int indice, int tam);
+void retirarCarro(string placa, Veiculo Andar[], int tam);
 void calcularPreco(Veiculo car, int h, int m);
 void contaTempo(Relogio *Tempo);
+float calculaPreco(Veiculo car, Relogio hf);
 
 int main()
 {
@@ -63,23 +76,22 @@ int main()
   Relogio Expediente;
   Veiculo Automovel; //Variavel que vai assumir qualquer tipo de Veiculo
 
- cout << "Horário de início do expediente [hh:mm]: ";
+ cout << GREEN <<  "HORÁRIO DE INÍCIO DO EXPEDIENTE [hh:mm]: " << WHITE;
  cin >> hora;
  cin.get();
  cin >> minuto;
-   
+ Expediente.insere(hora,minuto);
 
 
   
   while(true)
   {
-      
-    Expediente.insere(hora,minuto);
-    contaTempo(&Expediente);
+
+    contaTempo(&Expediente); 
     Expediente.mostrarHora();
 
       
-    cout << "1 - Estacionar um Veiculo, 2 - Retirar um Veiculo";
+    cout << "1 - Estacionar um Veiculo, 2 - Retirar um Veiculo, 3-Gerar relatório: ";
     cin >> opc;
 
     if(opc == 1)
@@ -97,7 +109,8 @@ int main()
         case 1:
           Automovel.preco = 5;
           Automovel.tipo = 1;
-          Automovel.inserir(hora,minuto);
+          Automovel.inserir(Expediente.horas,Expediente.minutos);
+          Automovel.mostrarHora();
           
           //Escolha do andar especifico para cada tipo de Veiculo
           cout << "Em qual andar deseja Estacionar [1 ou 2]: ";
@@ -128,7 +141,9 @@ int main()
         case 2:
           Automovel.preco = 7;
           Automovel.tipo = 2;
-          Automovel.inserir(hora,minuto);
+          Automovel.inserir(Expediente.horas,Expediente.minutos);
+          Automovel.mostrarHora();
+
 
           cout << "Em qual andar deseja Estacionar [1, 3 ou 5]: ";
           cin >> andar;
@@ -165,7 +180,10 @@ int main()
         case 3:
           Automovel.preco = 10;
           Automovel.tipo = 3;
-          Automovel.inserir(hora,minuto);
+          Automovel.inserir(Expediente.horas,Expediente.minutos);
+          Automovel.mostrarHora();
+
+          
           cout << "Em qual andar deseja Estacionar [4]: ";
           cin >> andar;
           while(andar != 4)
@@ -186,17 +204,34 @@ int main()
         break;
       }
     }
-    else if(opc == 2){
+    else if(opc == 2)
+    {
+      string placaVerifica;  
+      cout << "De qual Andar deseja retirar um Veiculo: ";
+      cout << "[1º Andar (1), 2º Andar(2), 3° Andar(3), 4° Andar(4), 5°Andar(5): ";
+      cin >> andar;
 
-      cout << "Qual a placa de seu carro: ";
-      cin >> Automovel.placa;
+      if(andar == 1)
+      {
+        int opt;  
+        cout << "Carro(1) ou camionete(2): " << endl;
+        cin >> opt;
 
-      cout << "Horário de saída [hh:mm]: ";
-      cin >> hora;
-      cin.get();
-      cin >> minuto;
-        
+        cout << "Qual a placa de seu carro: ";
+        cin >> placaVerifica;
+
+        if(opt == 1)
+        {
+          retirarCarro(placaVerifica, CarrosAndar1, 20);
+        }
+        else
+        {
+         retirarCarro(placaVerifica, CamionetesAndar1, 30);  
+        }
+      }
+
     }
+    system("clear");
   }
   return 0;
 }
@@ -209,17 +244,22 @@ void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam)
     {
       Andar[i] = car;
     }
+    else if(i == indice && Andar[i].preco == car.preco)
+    {
+      cout << "=- Ha um veiculo nesta vaga! -="<< endl;
+    }
   }
 }
 
-void retirarCarro(Veiculo car, Veiculo Andar[], int indice, int tam)
+void retirarCarro(string placa, Veiculo Andar[], int tam)
 {
 
   for(int i = 0; i < tam; i++)
   {
-    if(i == indice && Andar[i].preco == car.preco)
+    if(Andar[i].placa == placa)
     {
       Andar[i].preco = 0;
+      cout << "Veiculo Retirado."<<endl;
     }
   }
 }
@@ -243,12 +283,15 @@ void mostrarVeiculos(float preco,Veiculo Andar[], int tam)
   }
 }
 
-void contaTempo(Relogio *Tempo) {
+void contaTempo(Relogio *Tempo)
+{
     Tempo->minutos += 10;
-        if(Tempo->minutos > 59){
+        if(Tempo->minutos > 59)
+        {
             Tempo->minutos = 00;
             Tempo->horas++;
-            if(Tempo->horas == 24){
+            if(Tempo->horas == 24)
+            {
                Tempo->horas = 00;
                Tempo->minutos = 00;
             }
