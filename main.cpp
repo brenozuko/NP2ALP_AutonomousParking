@@ -31,7 +31,6 @@ struct Veiculo
       cout <<  ":";
       cout << setfill('0') << setw(2) << minuto << endl;
     }
-  
 };
 
 struct Relogio
@@ -71,7 +70,6 @@ float retirarCarro(string placa, Veiculo Andar[], int tam);
 float calcularPreco(Veiculo *Andar,float preco, Relogio Tempo);
 void gerarRelatorio(Veiculo Andar[], Caixa Report);
 void contaTempo(Relogio *Tempo);
-
 
 int main()
 {
@@ -213,7 +211,6 @@ int main()
             cin >> pos;
             inserirCarro(Automovel, Andar4, pos, 15);
           }
-          
         break;
       }
     }
@@ -258,6 +255,13 @@ int main()
       {
         Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar5, 20);
       }
+    }
+    else if(opc == 3)
+    {
+      cout << RED << "=- Relatorio =-" << WHITE << endl;
+      cout << "Total de Carros Atendidos: " << Fluxo.qtdCarros << endl;
+      cout << "Total de Camionetes Atentidas: " << Fluxo.qtdCamionetes << endl;
+      cout << "Total de Super-Esportivos Atentidos: " << Fluxo.qtdSport << endl;
     }
     else if(opc == 4)
     {
@@ -383,31 +387,6 @@ void gerarRelatorio(Veiculo Andar[], Relogio Tempo, int tam)
   }
 
 }
-
-
-// void tempoDecorrido(int h1, int m1, int h2, int m2, int* h3, int* m3) {
-
-// 	if (h1 > h2) {
-// 		*h3 = (24 - h1) + h2;
-// 		if (m1 > m2) {
-// 			*h3 = *h3 - 1;
-// 		}
-// 	}
-// 	else {
-// 		*h3 = h2 - h1;
-// 		if (m1 > m2) {
-// 			*h3 = *h3 - 1;
-// 		}
-// 	}
-
-// 	if (m1 > m2) {
-// 		*m3 = (60 - m1) + m2;
-// 	}
-// 	else {
-// 		*m3 = m2 - m1;
-// 	}
-
-// }
 
 
  
