@@ -1,5 +1,7 @@
 #include <iostream>
 #include<iomanip>
+//Breno Costa Zukowski Marques RA: 2840482011010
+//Jean Luca Dos Santos Silva RA: 2840482011044
 
 // #define RED "\033[31;40m"
 // #define GREEN "\033[32;40m"
@@ -26,7 +28,10 @@ typedef struct
     }
 
     void mostrarHora(){
-    cout << "Hora de entrada: " << hora << ":" << minuto << endl; 
+    cout << "Hora de entrada: " <<endl;
+    cout << setfill('0') << setw(2) << hora;
+    cout <<  ":";
+    cout << setfill('0') << setw(2) << minuto << endl;
 }
   
 }Veiculo;
@@ -42,10 +47,11 @@ void insere(int sthoras, int stminutos){
 }
 
 void mostrarHora(){
-    cout << "Hora atual: " << horas << ":" << minutos << endl; 
-}
-
-} Relogio;
+    cout << "Hora de entrada: " <<endl;
+    cout << setfill('0') << setw(2) << horas;
+    cout <<  ":";
+    cout << setfill('0') << setw(2) << minutos << endl;
+}} Relogio;
 
 
 
