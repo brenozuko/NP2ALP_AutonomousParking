@@ -12,7 +12,7 @@
 
 using namespace std;
 
-typedef struct
+ struct Veiculo
 {
   string placa;
   int tipo;
@@ -28,15 +28,15 @@ typedef struct
     }
 
     void mostrarHora(){
-    cout << "Hora de entrada: " <<endl;
+    cout << "Hora de entrada: ";
     cout << setfill('0') << setw(2) << hora;
     cout <<  ":";
     cout << setfill('0') << setw(2) << minuto << endl;
 }
   
-}Veiculo;
+};
 
-typedef struct  {
+struct Relogio {
 int horas;
 int minutos;
 
@@ -47,11 +47,11 @@ void insere(int sthoras, int stminutos){
 }
 
 void mostrarHora(){
-    cout << "Hora de entrada: " <<endl;
+    cout << "Hora atual: ";
     cout << setfill('0') << setw(2) << horas;
     cout <<  ":";
     cout << setfill('0') << setw(2) << minutos << endl;
-}} Relogio;
+}} ;
 
 
 
