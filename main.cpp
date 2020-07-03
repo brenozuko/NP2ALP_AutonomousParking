@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include<iomanip>
 using namespace std;
 
 typedef struct
@@ -7,119 +7,212 @@ typedef struct
   string placa;
   int tipo;
   float preco;
-  int horaInicial, minutoInicial;
+  int hora;
+  int minuto;
+
+
+    void inserir(int sth, int stm) //Método de inserção em struct, técnica aprendida no YouTube
+    {
+        hora = sth;
+        minuto = stm;
+    }
+  
 }Veiculo;
 
-typedef struct 
-{
-  int horas;
-  int minutos;
-}Relogio;
+typedef struct  {
+int horas;
+int minutos;
 
-typedef struct
-{
-  //Andar 1
-  Veiculo Andar1Carros[20]; // 20 carros, 30 camionetes
-  Veiculo Andar1Camionetes[30];
 
-  //Andar 2
-  Veiculo Andar2[25]; // 25 carros
+void insere(int sthoras, int stminutos){
+    horas = sthoras;
+    minutos = stminutos;
+}
 
-  //Andar 3
-  Veiculo Andar3[10]; // 10 camionetes
 
-  //Andar 4
-  Veiculo Andar4[15]; // 15 super esportivos
+void passaTempo(){
+    while(horas <= 24){   
+        minutos += 10;
+        if(minutos > 59){
+            minutos = 00;
+            horas++;
+            if(horas == 24){
+                horas = 00;
+                minutos = 00;
+                break;
+            }
+        }
+        cout << horas << ":" << minutos << endl;
+    }
+}
 
-  //Andar 5
-  Veiculo Andar5[20]; // 20 camionetes
-}Estacionamento;
+} Relogio;
 
-void ContaTempo(Relogio *Tempo);
-void IniciaVeiculo(Veiculo *car, Relogio *tempo, int tipo);
+
+
+void mostrarVeiculos(float preco,Veiculo Andar[], int tam);
+void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam);
+void retirarCarro(Veiculo car, Veiculo Andar[], int indice, int tam);
+void calcularPreco(Veiculo car, int h, int m);
+
 int main()
 {
-    Relogio Dia;
+  //Andar 1
+  Veiculo CarrosAndar1[20];
+  Veiculo CamionetesAndar1[30];
+  //Andar 2
+  Veiculo Andar2[25];
+  //Andar 3
+  Veiculo Andar3[10];
+  //Andar 4
+  Veiculo Andar4[15];
+  //Andar 5
+  Veiculo Andar5[20];
 
-    Dia.horas = 8;
-    Dia.minutos = 0;
+  int opc, tipo,pos;
+  int hora,minuto;
+  int andar;
+  Veiculo Automovel; //Variavel que vai assumir qualquer tipo de Veiculo
+  while(true)
+  {
+    cout << "1 - Estacionar um Veiculo, 2 - Retirar um Veiculo";
+    cin >> opc;
 
-    Veiculo car;
-    Estacionamento AutonomousParking;
-
-    int opc = 0;
-    while(opc != 3)
+    if(opc == 1)
     {
-
-    
-      ContaTempo(&Dia);  
-      cout << "Hora atual: " << Dia.horas << ":" << Dia.minutos << endl; 
-
-      cout << "1 - Estacionar Veiculo, 2 - Retirar Veiculo, 3- Fechar Expediente:";
-      cin >> opc;
+      cout << "Qual o tipo de seu Veiculo [1-Carro,2-Camionete,3-Super-Esportivo]: ";
+      cin >> tipo;
       
+      cout << "Qual a placa de seu carro: ";
+      cin >> Automovel.placa;
+
+      cout << "Horário de entrada [hh:mm]: ";
+      cin >> hora;
+      cin.get();
+      cin >> minuto;
 
 
-      if(opc == 1)
+
+      switch(tipo) //Este switch serve para definir os atributos especificos de cada tipo de Veiculo
       {
-        int tipo;
-        cout << "Qual o tipo do veiculo[1-Carro, 2-Camionete, 3-Super-Esportivo]: ";
-        cin >> tipo;
-        IniciaVeiculo(&car, &Dia, tipo);
+        case 1:
+          Automovel.preco = 5;
+          Automovel.tipo = 1;
+          Automovel.inserir(hora,minuto);
+          
+          //Escolha do andar especifico para cada tipo de Veiculo
+          cout << "Em qual andar deseja Estacionar [1 ou 2]: ";
+          cin >> andar;
 
+          cout << "Vagas Carros - Andar "<< andar << endl;
+          mostrarVeiculos(5, CarrosAndar1, 20);
+
+          cout << "Em qual posicao deseja adicionar: ";
+          cin >> pos;
+          
+          inserirCarro(Automovel, CarrosAndar1,pos, 20);
+          while(andar != 1 && andar != 2)
+          {
+            cout << "Em qual andar deseja Estacionar [1 ou 2]: ";
+            cin >> andar;
+          }
+          
+        break;
+        case 2:
+          Automovel.preco = 7;
+          Automovel.tipo = 2;
+          Automovel.inserir(hora,minuto);
+
+          cout << "Vagas Camionetes Andar "<<andar << endl;
+          mostrarVeiculos(Automovel.preco, CarrosAndar1, 30);
+
+          cout << "Em qual posicao deseja adicionar o Veiculo: ";
+          cin >> pos;
+
+          inserirCarro(Automovel, CarrosAndar1, pos, 30);
+          cout << "Em qual andar deseja Estacionar [1, 3 ou 5]: ";
+          cin >> andar;
+          while(andar != 1 && andar != 3 && andar != 5)
+          {
+            cout << "Em qual andar deseja Estacionar [1, 3 ou 5]: ";
+            cin >> andar;
+          }
+
+        break;
+        case 3:
+        cout 
+          Automovel.preco = 10;
+          Automovel.tipo = 3;
+          Automovel.inserir(hora,minuto);
+          cout << Automovel.hora << ":" << Automovel.minuto << endl;
+
+
+
+          cout << "Em qual andar deseja Estacionar [4]: ";
+          cin >> andar;
+          while(andar != 4)
+          {
+            cout << "Em qual andar deseja Estacionar [4]: ";
+            cin >> andar;
+          }
+
+        break;
       }
-      else if(opc == 2)
-      {
-        int andar;
-        cout << "Qual Andar deseja acessar: ";
-        cin >> andar;
-        switch (andar)
-        {
-          case 1:
-          break;
-          case 2:
-          break;
-          case 3:
-          break;
-          case 4:
-          break;
-          case 5:
-          break;
-        }
-      }
-     
     }
+    else if(opc == 2){
 
+      cout << "Qual a placa de seu carro: ";
+      cin >> Automovel.placa;
+
+      cout << "Horário de saída [hh:mm]: ";
+      cin >> hora;
+      cin.get();
+      cin >> minuto;
+        
+    }
+  }
   return 0;
 }
 
-void ContaTempo(Relogio *Tempo)
+void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam)
 {
-  Tempo->minutos += 10;
-  if(Tempo->minutos >= 60)
+  for(int i = 0; i < tam; i++)
   {
-    Tempo->minutos -= 60;
-    Tempo->horas++;
-  }
-  if(Tempo->horas >= 24)
-  {
-    Tempo->horas -= 24;
+    if(i == indice && Andar[i].preco != car.preco)
+    {
+      Andar[i] = car;
+    }
   }
 }
 
-void IniciaVeiculo(Veiculo *car, Relogio *tempo, int tipo)
+void retirarCarro(Veiculo car, Veiculo Andar[], int indice, int tam)
 {
-  car->horaInicial = tempo->horas;
-  car->minutoInicial = tempo->minutos;
 
-  cout << "Qual sua placa: ";
-  cin >> car->placa;
-
-  cout << endl;  
-  cout << "=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*" << endl;  
-  cout << "Carro: " << car->placa << endl;
-  cout << "Hora de entrada: "<< car->horaInicial << ":" << car->minutoInicial << endl;
-  cout << "Cobrança iniciada." << endl;
-  cout << "=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*" << endl << endl;  
- 
+  for(int i = 0; i < tam; i++)
+  {
+    if(i == indice && Andar[i].preco == car.preco)
+    {
+      Andar[i].preco = 0;
+    }
+  }
 }
+
+void mostrarVeiculos(float preco,Veiculo Andar[], int tam)
+{
+  for(int i = 0; i < tam; i++)
+  {
+    if(Andar[i].preco != preco)
+    {
+      cout << "[ "<<i<<"  ]  ";
+    }
+    else
+    {
+      cout << "[ X ] ";
+    }
+    if((i+1) % 5 == 0)
+    {
+      cout << endl;
+    }
+  }
+}
+
