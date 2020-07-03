@@ -7,7 +7,6 @@
 #define RED "\033[31m"
 #define WHITE "\033[0m"
 
-
 using namespace std;
 
 struct Veiculo
@@ -56,16 +55,27 @@ struct Relogio
   }
 };
 
+struct Caixa
+{
+  float faturamentoTotal = 0;
+  float faturamentoMedio = 0;
+  int qtdCarros = 0;
+  int qtdCamionetes = 0;
+  int qtdSport = 0;
+};
 
 
 void mostrarVeiculos(float preco,Veiculo Andar[], int tam);
 void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam);
-void retirarCarro(string placa, Veiculo Andar[], int tam);
-void gerarRelatorio(Veiculo Andar[], Relogio Tempo);
+float retirarCarro(string placa, Veiculo Andar[], int tam);
+float calcularPreco(Veiculo *Andar,float preco, Relogio Tempo);
+void gerarRelatorio(Veiculo Andar[], Caixa Report);
 void contaTempo(Relogio *Tempo);
+
 
 int main()
 {
+
   //Andar 1
   Veiculo CarrosAndar1[20];
   Veiculo CamionetesAndar1[30];
@@ -83,6 +93,7 @@ int main()
   int andar;
   Relogio Expediente;
   Veiculo Automovel; //Variavel que vai assumir qualquer tipo de Veiculo
+  Caixa Fluxo; 
 
   cout <<  "HORÁRIO DE INÍCIO DO EXPEDIENTE [hh:mm]: ";
   cin >> hora;
@@ -91,7 +102,6 @@ int main()
   Expediente.insere(hora,minuto);
 
 
-  
   while(true)
   {
 
@@ -111,14 +121,15 @@ int main()
       cin >> Automovel.placa;
 
 
-
       switch(tipo) //Este switch serve para definir os atributos especificos de cada tipo de Veiculo
       {
         case 1:
           Automovel.preco = 5;
           Automovel.tipo = 1;
+          Fluxo.qtdCarros += 1;
           Automovel.inserir(Expediente.horas,Expediente.minutos);
           Automovel.mostrarHora();
+
           
           //Escolha do andar especifico para cada tipo de Veiculo
           cout << "Em qual andar deseja Estacionar [1 ou 2]: ";
@@ -149,6 +160,7 @@ int main()
         case 2:
           Automovel.preco = 7;
           Automovel.tipo = 2;
+          Fluxo.qtdCamionetes += 1;
           Automovel.inserir(Expediente.horas,Expediente.minutos);
           Automovel.mostrarHora();
 
@@ -188,6 +200,7 @@ int main()
         case 3:
           Automovel.preco = 10;
           Automovel.tipo = 3;
+          Fluxo.qtdSport += 1;
           Automovel.inserir(Expediente.horas,Expediente.minutos);
           Automovel.mostrarHora();
           andar = 4;
@@ -222,28 +235,28 @@ int main()
 
         if(opt == 1)
         {
-          retirarCarro(placaVerifica, CarrosAndar1, 20);
+          Fluxo.faturamentoTotal += retirarCarro(placaVerifica, CarrosAndar1, 20);
         }
         else
         {
-         retirarCarro(placaVerifica, CamionetesAndar1, 30);  
+          Fluxo.faturamentoTotal += retirarCarro(placaVerifica, CamionetesAndar1, 30);
         }
       }
       else if(andar == 2)
       {
-        retirarCarro(placaVerifica, Andar2, 25);
+       Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar2, 25); 
       }
       else if(andar == 3)
       {
-        retirarCarro(placaVerifica, Andar3, 10);
+        Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar3, 10);
       }
       else if(andar == 4)
       {
-        retirarCarro(placaVerifica, Andar4, 15);
+        Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar4, 15);
       }
       else if(andar == 5)
       {
-        retirarCarro(placaVerifica, Andar5, 20);
+        Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar5, 20);
       }
     }
     else if(opc == 4)
@@ -311,17 +324,19 @@ void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam)
   }
 }
 
-void retirarCarro(string placa, Veiculo Andar[], int tam)
+float retirarCarro(string placa, Veiculo Andar[], int tam)
 {
-
+  float preco;
   for(int i = 0; i < tam; i++)
   {
     if(Andar[i].placa == placa)
     {
+      preco = Andar[i].preco;
       Andar[i].preco = 0;
-      cout << "Veiculo Retirado."<<endl;
+      return preco;
     }
   }
+  return 0;
 }
 
 void mostrarVeiculos(float preco,Veiculo Andar[], int tam)
@@ -348,16 +363,52 @@ void contaTempo(Relogio *Tempo)
     Tempo->minutos += 10;
         if(Tempo->minutos > 59)
         {
-            Tempo->minutos = 00;
+            Tempo->minutos = 0;
             Tempo->horas++;
             if(Tempo->horas == 24)
             {
-               Tempo->horas = 00;
-               Tempo->minutos = 00;
+               Tempo->horas = 0;
+               Tempo->minutos = 0;
             }
         }
 }
 
+void gerarRelatorio(Veiculo Andar[], Relogio Tempo, int tam)
+{
+
+  float acumulador;  
+  for(int i = 0; i < tam; i++)
+  {
+    acumulador += (Andar[i].hora);
+  }
+
+}
 
 
+// void tempoDecorrido(int h1, int m1, int h2, int m2, int* h3, int* m3) {
 
+// 	if (h1 > h2) {
+// 		*h3 = (24 - h1) + h2;
+// 		if (m1 > m2) {
+// 			*h3 = *h3 - 1;
+// 		}
+// 	}
+// 	else {
+// 		*h3 = h2 - h1;
+// 		if (m1 > m2) {
+// 			*h3 = *h3 - 1;
+// 		}
+// 	}
+
+// 	if (m1 > m2) {
+// 		*m3 = (60 - m1) + m2;
+// 	}
+// 	else {
+// 		*m3 = m2 - m1;
+// 	}
+
+// }
+
+
+ 
+ 
