@@ -1,18 +1,16 @@
 #include <iostream>
 #include<iomanip>
+
 //Breno Costa Zukowski Marques RA: 2840482011010
 //Jean Luca Dos Santos Silva RA: 2840482011044
 
-// #define RED "\033[31;40m"
-// #define GREEN "\033[32;40m"
-// #define WHITE "\033[37;40m"
-// #define YELLOW "\033[33;40m"
-// #define CYAN "\033[36;40m"
+#define RED "\033[31m"
+#define WHITE "\033[0m"
 
 
 using namespace std;
 
- struct Veiculo
+struct Veiculo
 {
   string placa;
   int tipo;
@@ -23,44 +21,48 @@ using namespace std;
 
     void inserir(int sth, int stm) //Método de inserção em struct, técnica aprendida no YouTube
     {
-        hora = sth;
-        minuto = stm;
+      hora = sth;
+      minuto = stm;
     }
 
-    void mostrarHora(){
-    cout << "Hora de entrada: ";
-    cout << setfill('0') << setw(2) << hora;
-    cout <<  ":";
-    cout << setfill('0') << setw(2) << minuto << endl;
-}
+    void mostrarHora()
+    {
+      cout << "Hora de entrada: ";
+      cout << setfill('0') << setw(2) << hora;
+      cout <<  ":";
+      cout << setfill('0') << setw(2) << minuto << endl;
+    }
   
 };
 
-struct Relogio {
-int horas;
-int minutos;
+struct Relogio
+{
+  int horas;
+  int minutos;
 
 
-void insere(int sthoras, int stminutos){
-    horas = sthoras;
-    minutos = stminutos;
-}
+  void insere(int sthoras, int stminutos)
+  {
+      horas = sthoras;
+      minutos = stminutos;
+  }
 
-void mostrarHora(){
-    cout << "Hora atual: ";
-    cout << setfill('0') << setw(2) << horas;
-    cout <<  ":";
-    cout << setfill('0') << setw(2) << minutos << endl;
-}} ;
+  void mostrarHora()
+  {
+      cout << "Hora atual: ";
+      cout << setfill('0') << setw(2) << horas;
+      cout <<  ":";
+      cout << setfill('0') << setw(2) << minutos << endl;
+  }
+};
 
 
 
 void mostrarVeiculos(float preco,Veiculo Andar[], int tam);
 void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam);
 void retirarCarro(string placa, Veiculo Andar[], int tam);
-void calcularPreco(Veiculo car, int h, int m);
+void gerarRelatorio(Veiculo Andar[], Relogio Tempo);
 void contaTempo(Relogio *Tempo);
-float calculaPreco(Veiculo car, Relogio hf);
 
 int main()
 {
@@ -82,11 +84,11 @@ int main()
   Relogio Expediente;
   Veiculo Automovel; //Variavel que vai assumir qualquer tipo de Veiculo
 
- cout <<  "HORÁRIO DE INÍCIO DO EXPEDIENTE [hh:mm]: ";
- cin >> hora;
- cin.get();
- cin >> minuto;
- Expediente.insere(hora,minuto);
+  cout <<  "HORÁRIO DE INÍCIO DO EXPEDIENTE [hh:mm]: ";
+  cin >> hora;
+  cin.get();
+  cin >> minuto;
+  Expediente.insere(hora,minuto);
 
 
   
@@ -97,7 +99,7 @@ int main()
     Expediente.mostrarHora();
 
       
-    cout << "1 - Estacionar um Veiculo, 2 - Retirar um Veiculo, 3-Gerar relatório: ";
+    cout << "1 - Estacionar um Veiculo, 2 - Retirar um Veiculo, 3-Gerar relatório, 4-Ver Veiculos de um Andar: ";
     cin >> opc;
 
     if(opc == 1)
@@ -244,6 +246,51 @@ int main()
         retirarCarro(placaVerifica, Andar5, 20);
       }
     }
+    else if(opc == 4)
+    {
+      cout << "Qual andar deseja acessar[1°,2°,3°,4° ou 5°]: ";
+      cin >> andar;
+      if(andar == 1)
+      {
+        int escolha;
+        cout << "Acessar [1-Carros, 2-Camionetes]: ";
+        cin >> escolha;
+        if(escolha == 1)
+        {
+          mostrarVeiculos(5, CarrosAndar1, 20);
+        }
+        else if(escolha == 2)
+        {
+          mostrarVeiculos(7, CamionetesAndar1, 20);
+        }
+      }
+      else if(andar == 2)
+      {
+        mostrarVeiculos(5, Andar2, 25);
+      }
+      else if(andar == 3)
+      {
+        mostrarVeiculos(7, Andar3, 10);
+      }
+      else if(andar == 4)
+      {
+        mostrarVeiculos(10, Andar4, 15);
+      }
+      else if(andar == 5)
+      {
+        mostrarVeiculos(10, Andar4, 15);
+      }
+    }
+    string pause;
+    cout << RED << endl;
+    cout << "=--------------------=" << endl;
+    cout << "para sair digite -1: " << endl;;
+    cout << "=--------------------=" << WHITE<< endl;
+    cin >> pause;
+    if(pause == "-1")
+    {
+      break;
+    }
     system("clear");
   }
   return 0;
@@ -310,5 +357,7 @@ void contaTempo(Relogio *Tempo)
             }
         }
 }
+
+
 
 
