@@ -66,9 +66,8 @@ struct Caixa
 
 void mostrarVeiculos(float preco,Veiculo Andar[], int tam);
 void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam);
-float retirarCarro(string placa, Veiculo Andar[], int tam);
-float calcularPreco(Veiculo *Andar,float preco, Relogio Tempo);
-void gerarRelatorio(Veiculo Andar[], Caixa Report);
+float retirarCarro(string placa, Veiculo Andar[], int tam, Relogio Tempo);
+float calcularPreco(Veiculo car,float preco, Relogio Tempo);
 void contaTempo(Relogio *Tempo);
 
 int main()
@@ -232,36 +231,38 @@ int main()
 
         if(opt == 1)
         {
-          Fluxo.faturamentoTotal += retirarCarro(placaVerifica, CarrosAndar1, 20);
+          Fluxo.faturamentoTotal += retirarCarro(placaVerifica, CarrosAndar1, 20, Expediente);
         }
         else
         {
-          Fluxo.faturamentoTotal += retirarCarro(placaVerifica, CamionetesAndar1, 30);
+          Fluxo.faturamentoTotal += retirarCarro(placaVerifica, CamionetesAndar1, 30, Expediente);
         }
       }
       else if(andar == 2)
       {
-       Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar2, 25); 
+       Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar2, 25, Expediente); 
       }
       else if(andar == 3)
       {
-        Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar3, 10);
+        Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar3, 10, Expediente);
       }
       else if(andar == 4)
       {
-        Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar4, 15);
+        Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar4, 15, Expediente);
       }
       else if(andar == 5)
       {
-        Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar5, 20);
+        Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar5, 20, Expediente);
       }
     }
     else if(opc == 3)
     {
-      cout << RED << "=- Relatorio =-" << WHITE << endl;
+      cout << RED << "=- Relatorio -=" << WHITE << endl;
       cout << "Total de Carros Atendidos: " << Fluxo.qtdCarros << endl;
       cout << "Total de Camionetes Atentidas: " << Fluxo.qtdCamionetes << endl;
       cout << "Total de Super-Esportivos Atentidos: " << Fluxo.qtdSport << endl;
+      cout << fixed << setprecision(2);
+      cout << "Total de faturamento: R$" << Fluxo.faturamentoTotal << endl;
     }
     else if(opc == 4)
     {
@@ -301,7 +302,7 @@ int main()
     string pause;
     cout << RED << endl;
     cout << "=--------------------=" << endl;
-    cout << "para sair digite -1: " << endl;;
+    cout << "para sair digite -1 ou qualquer tecla para continuar: " << endl;;
     cout << "=--------------------=" << WHITE<< endl;
     cin >> pause;
     if(pause == "-1")
@@ -328,19 +329,29 @@ void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam)
   }
 }
 
-float retirarCarro(string placa, Veiculo Andar[], int tam)
+float retirarCarro(string placa, Veiculo Andar[], int tam, Relogio Tempo)
 {
   float preco;
+  float faturamento;
+
   for(int i = 0; i < tam; i++)
   {
+    Veiculo car;
     if(Andar[i].placa == placa)
     {
       preco = Andar[i].preco;
+      car = Andar[i];
       Andar[i].preco = 0;
-      return preco;
+      faturamento = calcularPreco(car,preco,Tempo);
+
     }
+
+    return faturamento;
   }
-  return 0;
+
+
+  return faturamento; 
+
 }
 
 void mostrarVeiculos(float preco,Veiculo Andar[], int tam)
@@ -364,7 +375,7 @@ void mostrarVeiculos(float preco,Veiculo Andar[], int tam)
 
 void contaTempo(Relogio *Tempo)
 {
-    Tempo->minutos += 10;
+    Tempo->minutos += 30;
         if(Tempo->minutos > 59)
         {
             Tempo->minutos = 0;
@@ -377,16 +388,42 @@ void contaTempo(Relogio *Tempo)
         }
 }
 
-void gerarRelatorio(Veiculo Andar[], Relogio Tempo, int tam)
-{
 
-  float acumulador;  
-  for(int i = 0; i < tam; i++)
-  {
-    acumulador += (Andar[i].hora);
-  }
+float calcularPreco(Veiculo car,float preco, Relogio Tempo)
+{        
+        float timeH;
+        float timeM;
+        float convertTime;
+        float debito;   
 
-}
+
+
+    if (car.hora > Tempo.horas){
+	timeH =  (24 - car.hora) + Tempo.horas;
+	if (car.minuto > Tempo.minutos){
+		timeH = timeH - 1; 
+	}
+	} else {
+		timeH = Tempo.horas - car.hora;
+		if(car.minuto > Tempo.minutos){
+			timeH = timeH - 1;
+		}
+	}
+	
+	if (car.minuto > Tempo.minutos){
+		timeM = (60 - car.minuto) + Tempo.minutos;
+	} else {
+		timeM = Tempo.minutos - car.minuto;
+	}
+
+    convertTime = ((timeH * 60) + timeM)/60;
+
+    debito = preco * convertTime;
+
+    return debito;
+
+
+};
 
 
  
