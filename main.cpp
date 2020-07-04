@@ -240,18 +240,26 @@ int main()
       }
       else if(andar == 2)
       {
-       Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar2, 25, Expediente); 
+        cout << "Qual a placa de seu carro: ";
+        cin >> placaVerifica;
+        Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar2, 25, Expediente); 
       }
       else if(andar == 3)
       {
+        cout << "Qual a placa de seu carro: ";
+        cin >> placaVerifica;
         Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar3, 10, Expediente);
       }
       else if(andar == 4)
       {
+        cout << "Qual a placa de seu carro: ";
+        cin >> placaVerifica;
         Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar4, 15, Expediente);
       }
       else if(andar == 5)
       {
+        cout << "Qual a placa de seu carro: ";
+        cin >> placaVerifica;
         Fluxo.faturamentoTotal += retirarCarro(placaVerifica, Andar5, 20, Expediente);
       }
     }
@@ -301,9 +309,9 @@ int main()
     }
     string pause;
     cout << RED << endl;
-    cout << "=--------------------=" << endl;
+    cout << "=----------------------------------------------------=" << endl;
     cout << "para sair digite -1 ou qualquer tecla para continuar: " << endl;;
-    cout << "=--------------------=" << WHITE<< endl;
+    cout << "=----------------------------------------------------=" << WHITE<< endl;
     cin >> pause;
     if(pause == "-1")
     {
@@ -332,7 +340,7 @@ void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam)
 float retirarCarro(string placa, Veiculo Andar[], int tam, Relogio Tempo)
 {
   float preco;
-  float faturamento;
+  float faturamento = 0;
 
   for(int i = 0; i < tam; i++)
   {
@@ -343,15 +351,16 @@ float retirarCarro(string placa, Veiculo Andar[], int tam, Relogio Tempo)
       car = Andar[i];
       Andar[i].preco = 0;
       faturamento = calcularPreco(car,preco,Tempo);
-
+      return faturamento;
     }
-
-    return faturamento;
+    else if( i == tam-1 && Andar[i].placa != placa)
+    {
+      cout << RED << "=--------------------=" << endl;
+      cout << "Carro nao encontrado!" << endl;
+      cout << "=--------------------=" << WHITE << endl;
+    }
   }
-
-
-  return faturamento; 
-
+  return faturamento;
 }
 
 void mostrarVeiculos(float preco,Veiculo Andar[], int tam)
@@ -391,38 +400,42 @@ void contaTempo(Relogio *Tempo)
 
 float calcularPreco(Veiculo car,float preco, Relogio Tempo)
 {        
-        float timeH;
-        float timeM;
-        float convertTime;
-        float debito;   
+  float timeH;
+  float timeM;
+  float convertTime;
+  float debito;   
 
 
 
-    if (car.hora > Tempo.horas){
-	timeH =  (24 - car.hora) + Tempo.horas;
-	if (car.minuto > Tempo.minutos){
-		timeH = timeH - 1; 
+  if (car.hora > Tempo.horas)
+  {
+	  timeH =  (24 - car.hora) + Tempo.horas;
+	  if (car.minuto > Tempo.minutos)
+    {
+	     timeH = timeH - 1; 
+	  }
 	}
-	} else {
-		timeH = Tempo.horas - car.hora;
-		if(car.minuto > Tempo.minutos){
-			timeH = timeH - 1;
-		}
+  else
+  {
+    timeH = Tempo.horas - car.hora;
+    if(car.minuto > Tempo.minutos)
+    {
+      timeH = timeH - 1;
+    }
 	}
 	
-	if (car.minuto > Tempo.minutos){
+	if (car.minuto > Tempo.minutos)
+  {
 		timeM = (60 - car.minuto) + Tempo.minutos;
-	} else {
+	}
+  else
+  {
 		timeM = Tempo.minutos - car.minuto;
 	}
-
     convertTime = ((timeH * 60) + timeM)/60;
-
     debito = preco * convertTime;
 
     return debito;
-
-
 };
 
 
