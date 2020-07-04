@@ -1,93 +1,37 @@
 #include <iostream>
+#include "Autonomous.h"
 #include<iomanip>
 
 //Breno Costa Zukowski Marques RA: 2840482011010
 //Jean Luca Dos Santos Silva RA: 2840482011044
 
-#define RED "\033[31m"
-#define WHITE "\033[0m"
-
 using namespace std;
 
-struct Veiculo
-{
-  string placa;
-  int tipo;
-  float preco;
-  int hora;
-  int minuto;
-
-
-    void inserir(int sth, int stm) //Método de inserção em struct, técnica aprendida no YouTube
-    {
-      hora = sth;
-      minuto = stm;
-    }
-
-    void mostrarHora()
-    {
-      cout << "Hora de entrada: ";
-      cout << setfill('0') << setw(2) << hora;
-      cout <<  ":";
-      cout << setfill('0') << setw(2) << minuto << endl;
-    }
-};
-
-struct Relogio
-{
-  int horas;
-  int minutos;
-
-
-  void insere(int sthoras, int stminutos)
-  {
-      horas = sthoras;
-      minutos = stminutos;
-  }
-
-  void mostrarHora()
-  {
-      cout << "Hora atual: ";
-      cout << setfill('0') << setw(2) << horas;
-      cout <<  ":";
-      cout << setfill('0') << setw(2) << minutos << endl;
-  }
-};
-
-struct Caixa
-{
-  float faturamentoTotal = 0;
-  float faturamentoMedio = 0;
-  int qtdCarros = 0;
-  int qtdCamionetes = 0;
-  int qtdSport = 0;
-};
-
-
-void mostrarVeiculos(float preco,Veiculo Andar[], int tam);
-void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam);
-float retirarCarro(string placa, Veiculo Andar[], int tam, Relogio Tempo);
-float calcularPreco(Veiculo car,float preco, Relogio Tempo);
-void contaTempo(Relogio *Tempo);
+#define RED "\033[31m"
+#define WHITE "\033[0m"
+#define GREEN "\033[32m"
+#define BLACK "\033[30m"
+#define YELLOW "\033[33m"
+#define BLUE   "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
+#define GRAY    "\033[37m"
 
 int main()
 {
-
-  //Andar 1
   Veiculo CarrosAndar1[20];
   Veiculo CamionetesAndar1[30];
-  //Andar 2
   Veiculo Andar2[25];
-  //Andar 3
   Veiculo Andar3[10];
-  //Andar 4
   Veiculo Andar4[15];
-  //Andar 5
   Veiculo Andar5[20];
 
+  int lotacao = 0; //variavel para identificar a super lotacao de veiculos
   int opc, tipo,pos;
   int hora,minuto;
   int andar;
+
+  Relogio InicioExpediente;
   Relogio Expediente;
   Veiculo Automovel; //Variavel que vai assumir qualquer tipo de Veiculo
   Caixa Fluxo; 
@@ -96,8 +40,8 @@ int main()
   cin >> hora;
   cin.get();
   cin >> minuto;
-  Expediente.insere(hora,minuto);
-
+  Expediente.insere(hora,minuto); //Método responsável por receber os valores de hora e minuto, passando-os para a Struct.
+  InicioExpediente.insere(hora,minuto);
 
   while(true)
   {
@@ -105,8 +49,7 @@ int main()
     contaTempo(&Expediente); 
     Expediente.mostrarHora();
 
-      
-    cout << "1 - Estacionar um Veiculo, 2 - Retirar um Veiculo, 3-Gerar relatório, 4-Ver Veiculos de um Andar: ";
+    cout << GREEN << "1 - Estacionar um Veiculo, 2 - Retirar um Veiculo, 3-Gerar relatório, 4 - Ver Veiculos de um Andar, 5 - Opção Especial: " << WHITE;
     cin >> opc;
 
     if(opc == 1)
@@ -117,6 +60,7 @@ int main()
       cout << "Qual a placa de seu carro: ";
       cin >> Automovel.placa;
 
+      lotacao += 1;
 
       switch(tipo) //Este switch serve para definir os atributos especificos de cada tipo de Veiculo
       {
@@ -124,10 +68,9 @@ int main()
           Automovel.preco = 5;
           Automovel.tipo = 1;
           Fluxo.qtdCarros += 1;
-          Automovel.inserir(Expediente.horas,Expediente.minutos);
-          Automovel.mostrarHora();
+          Automovel.inserir(Expediente.horas,Expediente.minutos); //Métodos de Struct utilizados para inserir dados
+          Automovel.mostrarHora(); //Métodos de struct utilizados para mostrar dados
 
-          
           //Escolha do andar especifico para cada tipo de Veiculo
           cout << "Em qual andar deseja Estacionar [1 ou 2]: ";
           cin >> andar;
@@ -140,7 +83,7 @@ int main()
           cout << "Vagas Carros - Andar "<< andar << endl;
           if(andar == 1)
           {
-            mostrarVeiculos(5, CarrosAndar1, 20);
+            mostrarVeiculos(5, CarrosAndar1, 20); 
             cout << "Em qual posicao deseja adicionar: ";
             cin >> pos;
             inserirCarro(Automovel, CarrosAndar1, pos, 20);
@@ -152,7 +95,6 @@ int main()
             cin >> pos;
             inserirCarro(Automovel, Andar2,pos, 25);
           }
-          
         break;
         case 2:
           Automovel.preco = 7;
@@ -160,8 +102,7 @@ int main()
           Fluxo.qtdCamionetes += 1;
           Automovel.inserir(Expediente.horas,Expediente.minutos);
           Automovel.mostrarHora();
-
-
+                   
           cout << "Em qual andar deseja Estacionar [1, 3 ou 5]: ";
           cin >> andar;
           while(andar != 1 && andar != 3 && andar != 5)
@@ -192,7 +133,6 @@ int main()
             cin >> pos;
             inserirCarro(Automovel, Andar5, pos, 20);
           }
-
         break;
         case 3:
           Automovel.preco = 10;
@@ -271,6 +211,15 @@ int main()
       cout << "Total de Super-Esportivos Atentidos: " << Fluxo.qtdSport << endl;
       cout << fixed << setprecision(2);
       cout << "Total de faturamento: R$" << Fluxo.faturamentoTotal << endl;
+      cout << "Média de faturamento por hora: R$ " << faturamentoMedio(InicioExpediente, Expediente, Fluxo) << endl;
+      if(lotacao - 120 > 0)
+      {
+      cout << "Veiculo nao atendidos por super-lotacao: " << lotacao - 120 << endl;
+      }
+      else
+      {
+        cout << "Veiculos nao atendidos por super-lotacao: " << 0 << endl;
+      }
     }
     else if(opc == 4)
     {
@@ -307,11 +256,35 @@ int main()
         mostrarVeiculos(10, Andar4, 15);
       }
     }
+    else if(opc == 5)
+    {
+      string easteregg = "DA UM 10 AE LUSKINHA ";
+      int j = 0;
+      cout << endl;
+      for(int i = 0; i < easteregg.length(); i++, j++)
+      {
+        if(j % 2 == 0)
+        {
+          cout << GREEN;
+        }
+        else if(j % 3 == 0)
+        {
+          cout << YELLOW;
+        }
+        else
+        {
+          cout << BLUE;
+        }
+        cout << easteregg[i];
+      }
+      cout << GREEN <<  ":)" << endl;
+    }
+    
     string pause;
     cout << RED << endl;
     cout << "=----------------------------------------------------=" << endl;
     cout << "para sair digite -1 ou qualquer tecla para continuar: " << endl;;
-    cout << "=----------------------------------------------------=" << WHITE<< endl;
+    cout << "=----------------------------------------------------=" << WHITE << endl;
     cin >> pause;
     if(pause == "-1")
     {
@@ -321,123 +294,6 @@ int main()
   }
   return 0;
 }
-
-void inserirCarro(Veiculo car, Veiculo Andar[], int indice, int tam)
-{
-  for(int i = 0; i < tam; i++)
-  {
-    if(i == indice && Andar[i].preco != car.preco)
-    {
-      Andar[i] = car;
-    }
-    else if(i == indice && Andar[i].preco == car.preco)
-    {
-      cout << "=- Ha um veiculo nesta vaga! -="<< endl;
-    }
-  }
-}
-
-float retirarCarro(string placa, Veiculo Andar[], int tam, Relogio Tempo)
-{
-  float preco;
-  float faturamento = 0;
-
-  for(int i = 0; i < tam; i++)
-  {
-    Veiculo car;
-    if(Andar[i].placa == placa)
-    {
-      preco = Andar[i].preco;
-      car = Andar[i];
-      Andar[i].preco = 0;
-      faturamento = calcularPreco(car,preco,Tempo);
-      return faturamento;
-    }
-    else if( i == tam-1 && Andar[i].placa != placa)
-    {
-      cout << RED << "=--------------------=" << endl;
-      cout << "Carro nao encontrado!" << endl;
-      cout << "=--------------------=" << WHITE << endl;
-    }
-  }
-  return faturamento;
-}
-
-void mostrarVeiculos(float preco,Veiculo Andar[], int tam)
-{
-  for(int i = 0; i < tam; i++)
-  {
-    if(Andar[i].preco != preco)
-    {
-      cout << "[ "<<i<<"  ]  ";
-    }
-    else
-    {
-      cout << "[ X ] ";
-    }
-    if((i+1) % 5 == 0)
-    {
-      cout << endl;
-    }
-  }
-}
-
-void contaTempo(Relogio *Tempo)
-{
-    Tempo->minutos += 30;
-        if(Tempo->minutos > 59)
-        {
-            Tempo->minutos = 0;
-            Tempo->horas++;
-            if(Tempo->horas == 24)
-            {
-               Tempo->horas = 0;
-               Tempo->minutos = 0;
-            }
-        }
-}
-
-
-float calcularPreco(Veiculo car,float preco, Relogio Tempo)
-{        
-  float timeH;
-  float timeM;
-  float convertTime;
-  float debito;   
-
-
-
-  if (car.hora > Tempo.horas)
-  {
-	  timeH =  (24 - car.hora) + Tempo.horas;
-	  if (car.minuto > Tempo.minutos)
-    {
-	     timeH = timeH - 1; 
-	  }
-	}
-  else
-  {
-    timeH = Tempo.horas - car.hora;
-    if(car.minuto > Tempo.minutos)
-    {
-      timeH = timeH - 1;
-    }
-	}
-	
-	if (car.minuto > Tempo.minutos)
-  {
-		timeM = (60 - car.minuto) + Tempo.minutos;
-	}
-  else
-  {
-		timeM = Tempo.minutos - car.minuto;
-	}
-    convertTime = ((timeH * 60) + timeM)/60;
-    debito = preco * convertTime;
-
-    return debito;
-};
-
 
  
  
