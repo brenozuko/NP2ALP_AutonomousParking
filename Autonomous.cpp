@@ -80,7 +80,7 @@ void mostrarVeiculos(float preco,Veiculo Andar[], int tam)
 
 void contaTempo(Relogio *Tempo)
 {
-  Tempo->minutos += 5;
+  Tempo->minutos += 30;
   if(Tempo->minutos > 59)
   {
     Tempo->minutos = 0;
@@ -170,4 +170,3 @@ float faturamentoMedio(Relogio Inicio, Relogio Fim, Caixa faturamento)
 
   return faturamentoMedio;
 };
-

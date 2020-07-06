@@ -236,7 +236,7 @@ int main()
         }
         else if(escolha == 2)
         {
-          mostrarVeiculos(7, CamionetesAndar1, 20);
+          mostrarVeiculos(7, CamionetesAndar1, 30);
         }
       }
       else if(andar == 2)
@@ -294,6 +294,3 @@ int main()
   }
   return 0;
 }
-
- 
- 
