@@ -81,9 +81,9 @@ void mostrarVeiculos(float preco,Veiculo Andar[], int tam)
 void contaTempo(Relogio *Tempo)
 {
   Tempo->minutos += 30;
-  if(Tempo->minutos > 59)
+  if(Tempo->minutos > 60)
   {
-    Tempo->minutos = 0;
+    Tempo->minutos = Tempo->minutos - 60;
     Tempo->horas++;
     if(Tempo->horas == 24)
     {

@@ -280,7 +280,7 @@ int main()
       cout << GREEN <<  ":)" << endl;
     }
     
-    string pause;
+    string pause; //a variavel eh uma string assim o usuario pode digitar qualquer valor sem o programa entrar em um looping infinito
     cout << RED << endl;
     cout << "=----------------------------------------------------=" << endl;
     cout << "para sair digite -1 ou qualquer tecla para continuar: " << endl;;
