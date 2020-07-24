@@ -2,8 +2,8 @@
 #include "Autonomous.h"
 #include<iomanip>
 
-//Breno Costa Zukowski Marques RA: 2840482011010
-//Jean Luca Dos Santos Silva RA: 2840482011044
+//Breno Costa Zukowski Marques RA: 
+//Jean Luca Dos Santos Silva RA: 
 
 using namespace std;
 
