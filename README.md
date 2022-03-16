@@ -1,7 +1,7 @@
 # P2 ALP - Autonomous Parking
 ## Desenvolvido por: 
-#### Breno Costa Zukowski Marques - RA: 
-#### Jean Luca dos Santos Silva - RA: 
+#### Breno Costa Zukowski Marques
+#### Jean Luca dos Santos Silva
 
 
 ![Autonomous](https://github.com/brenozuko/NP2ALP_AutonomousParking/blob/master/autonomous-parking.jpg)  
